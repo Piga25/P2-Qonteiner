@@ -1,0 +1,30 @@
+{
+    "Eventi": [
+        {
+            "autore": "Andrea Pigatto",
+            "biglietti": 350,
+            "categoria": "Teatro",
+            "durata": 60,
+            "genere": "Commedia Informatica",
+            "indirizzo": "Via Filodrammatici, 2, 20121 Milano MI",
+            "nomeluogo": "Teatro La Scala",
+            "postiplatea": 100,
+            "prezzo": 54.990000000000002,
+            "prezzoplatea": 89.900000000000006,
+            "titolo": "Un progetto per P2"
+        },
+        {
+            "autore": "Steven Spielberg",
+            "biglietti": 110,
+            "categoria": "Teatro",
+            "durata": 110,
+            "genere": "drammatico",
+            "indirizzo": "via castello 24",
+            "nomeluogo": "La scala",
+            "postiplatea": 25,
+            "prezzo": 10,
+            "prezzoplatea": 22,
+            "titolo": "Il principe azzurro"
+        }
+    ]
+}
