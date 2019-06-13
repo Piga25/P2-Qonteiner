@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     logica/stadio.cpp \
     logica/teatro.cpp \
     view/widgets.cpp \
-    view/ricercaitemw.cpp
+    view/ricercaitemw.cpp \
+    view/visualizzaitemw.cpp
 
 HEADERS  += view/mainwindow.h \
     logica/cinema.h \
@@ -33,7 +34,8 @@ HEADERS  += view/mainwindow.h \
     logica/teatro.h \
     logica/deepptr.h \
     view/widgets.h \
-    view/ricercaitemw.h
+    view/ricercaitemw.h \
+    view/visualizzaitemw.h
 
 
 # Default rules for deployment.

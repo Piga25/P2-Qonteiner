@@ -4,12 +4,92 @@
 widgets::widgets(QWidget* parent) : QWidget(parent)
 {
     Qt::WA_DeleteOnClose;
-    setFixedSize(900,400);
+    setFixedSize(400,600);
     QRect position = frameGeometry();
     position.moveCenter(QDesktopWidget().availableGeometry().center());
     move(position.topLeft());
 
     setLayout(base());
+
+    connect(t,SIGNAL(clicked()),this,SLOT(teatroChecked()));
+    connect(ci,SIGNAL(clicked()),this,SLOT(cinemaChecked()));
+    connect(co,SIGNAL(clicked()),this,SLOT(concertoChecked()));
+    connect(s,SIGNAL(clicked()),this,SLOT(sportChecked()));
+    connect(salva,SIGNAL(clicked()),this,SLOT(aggiungiClicked()));
+    connect(pulisci,SIGNAL(clicked()),this,SLOT(pulisciClicked()));
+
+}
+
+void widgets::teatroChecked(){
+    groups->setCurrentIndex(0);
+}
+
+void widgets::cinemaChecked(){
+    groups->setCurrentIndex(1);
+}
+
+void widgets::concertoChecked(){
+    groups->setCurrentIndex(2);
+}
+
+void widgets::sportChecked(){
+    groups->setCurrentIndex(3);
+}
+
+void widgets::pulisciClicked(){
+    groups->setCurrentIndex(0);
+    reset();
+}
+
+QLayout* widgets::base(){
+    //Elementi standard per tutti gli eventi
+    titolo=new QLineEdit();
+    titololabel=new QLabel("Titolo");
+    prezzo=new QLineEdit();
+    prezzolabel=new QLabel("Prezzo");
+    prezzo->setValidator( new QDoubleValidator(0.01, 999.99, 2, this));
+    indirizzo=new QLineEdit();
+    indirizzolabel=new QLabel("Indirizzo");
+    biglietti=new QLineEdit();
+    bigliettilabel=new QLabel("Biglietti disponibili");
+    biglietti->setValidator( new QIntValidator(0, 1000, this));
+    durata=new QLineEdit();
+    duratalabel=new QLabel("Durata");
+    durata->setValidator( new QIntValidator(0, 300, this));
+
+    QVBoxLayout* vertical1=new QVBoxLayout();
+    QHBoxLayout* horizontal1=new QHBoxLayout();
+    QHBoxLayout* horizontal2=new QHBoxLayout();
+    QHBoxLayout* horizontal3=new QHBoxLayout();
+    QHBoxLayout* horizontal4=new QHBoxLayout();
+    QHBoxLayout* horizontal5=new QHBoxLayout();
+    horizontal1->addWidget(titololabel);
+    horizontal1->addWidget(titolo);
+    horizontal2->addWidget(duratalabel);
+    horizontal2->addWidget(durata);
+    horizontal3->addWidget(indirizzolabel);
+    horizontal3->addWidget(indirizzo);
+    horizontal4->addWidget(prezzolabel);
+    horizontal4->addWidget(prezzo);
+    horizontal5->addWidget(bigliettilabel);
+    horizontal5->addWidget(biglietti);
+
+    vertical1->addLayout(horizontal1);
+    vertical1->addLayout(horizontal2);
+    vertical1->addLayout(horizontal3);
+    vertical1->addLayout(horizontal4);
+    vertical1->addLayout(horizontal5);
+
+    t=new QRadioButton(tr("Teatro"));
+    ci=new QRadioButton(tr("Cinema"));
+    co=new QRadioButton(tr("Concerto"));
+    s=new QRadioButton(tr("Sport"));
+    t->setChecked(true);
+    QHBoxLayout* horizontalradio=new QHBoxLayout();
+    horizontalradio->addWidget(t);
+    horizontalradio->addWidget(ci);
+    horizontalradio->addWidget(co);
+    horizontalradio->addWidget(s);
 
     nome1=new QLineEdit();
     nome1label=new QLabel("Nome del Teatro");
@@ -111,99 +191,23 @@ widgets::widgets(QWidget* parent) : QWidget(parent)
     groups->addWidget(sport);
     groups->setCurrentIndex(0);
 
-    vertical->addLayout(groups);
-
-    connect(t,SIGNAL(clicked()),this,SLOT(teatroChecked()));
-    connect(ci,SIGNAL(clicked()),this,SLOT(cinemaChecked()));
-    connect(co,SIGNAL(clicked()),this,SLOT(concertoChecked()));
-    connect(s,SIGNAL(clicked()),this,SLOT(sportChecked()));
-    connect(salva,SIGNAL(clicked()),this,SLOT(aggiungiClicked()));
-    connect(pulisci,SIGNAL(clicked()),this,SLOT(pulisciClicked()));
-
-}
-
-void widgets::teatroChecked(){
-    groups->setCurrentIndex(0);
-}
-
-void widgets::cinemaChecked(){
-    groups->setCurrentIndex(1);
-}
-
-void widgets::concertoChecked(){
-    groups->setCurrentIndex(2);
-}
-
-void widgets::sportChecked(){
-    groups->setCurrentIndex(3);
-}
-
-void widgets::pulisciClicked(){
-    groups->setCurrentIndex(0);
-    reset();
-}
-
-QLayout* widgets::base(){
-    //Elementi standard per tutti gli eventi
-    titolo=new QLineEdit();
-    titololabel=new QLabel("Titolo");
-    prezzo=new QLineEdit();
-    prezzolabel=new QLabel("Prezzo");
-    prezzo->setValidator( new QDoubleValidator(0.01, 999.99, 2, this));
-    indirizzo=new QLineEdit();
-    indirizzolabel=new QLabel("Indirizzo");
-    biglietti=new QLineEdit();
-    bigliettilabel=new QLabel("Biglietti disponibili");
-    biglietti->setValidator( new QIntValidator(0, 1000, this));
-    durata=new QLineEdit();
-    duratalabel=new QLabel("Durata");
-    durata->setValidator( new QIntValidator(0, 300, this));
-
-    QHBoxLayout* horizontal=new QHBoxLayout();
-    QVBoxLayout* vertical1=new QVBoxLayout();
-    QVBoxLayout* vertical2=new QVBoxLayout();
-    QVBoxLayout* vertical3=new QVBoxLayout();
-    QVBoxLayout* vertical4=new QVBoxLayout();
-    QVBoxLayout* vertical5=new QVBoxLayout();
-    vertical1->addWidget(titololabel);
-    vertical2->addWidget(titolo);
-    vertical3->addWidget(duratalabel);
-    vertical4->addWidget(bigliettilabel);
-    vertical5->addWidget(prezzolabel);
-    vertical1->addWidget(indirizzolabel);
-    vertical2->addWidget(indirizzo);
-    vertical3->addWidget(durata);
-    vertical4->addWidget(biglietti);
-    vertical5->addWidget(prezzo);
-
-    horizontal->addLayout(vertical1);
-    horizontal->addLayout(vertical2);
-    horizontal->addLayout(vertical3);
-    horizontal->addLayout(vertical4);
-    horizontal->addLayout(vertical5);
-
-    t=new QRadioButton(tr("Teatro"));
-    ci=new QRadioButton(tr("Cinema"));
-    co=new QRadioButton(tr("Concerto"));
-    s=new QRadioButton(tr("Sport"));
-    t->setChecked(true);
-    QHBoxLayout* horizontalradio=new QHBoxLayout();
-    horizontalradio->addWidget(t);
-    horizontalradio->addWidget(ci);
-    horizontalradio->addWidget(co);
-    horizontalradio->addWidget(s);
-
     //Bottoni principali per inviare dati o resettarla
     salva=new QPushButton(tr("Aggiungi/Salva modifiche"));
+    salva->setMinimumSize(50,30);
+    salva->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;}");
     pulisci=new QPushButton(tr("Pulisci campi"));
+    pulisci->setMinimumSize(50,30);
+    pulisci->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;}");
     QHBoxLayout* horizontalbutton=new QHBoxLayout();
     horizontalbutton->addWidget(salva);
     horizontalbutton->addWidget(pulisci);
 
     vertical=new QVBoxLayout();//composizione finestra
-    vertical->addLayout(horizontal);
+    vertical->addLayout(vertical1);
     vertical->addLayout(horizontalradio);
+    vertical->addLayout(groups);
     vertical->addLayout(horizontalbutton);
+    vertical->setContentsMargins(10,0,10,10);
 
     return vertical;
 }

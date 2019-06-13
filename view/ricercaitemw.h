@@ -12,14 +12,9 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
-#include <QCheckBox>
 #include <QComboBox>
-#include <QSpinBox>
-#include <QGroupBox>
 #include <QMessageBox>
-#include <QRadioButton>
 #include <QHBoxLayout>
-#include <QStackedLayout>
 
 class ricercaitemW : public QWidget
 {
@@ -28,28 +23,22 @@ public:
     explicit ricercaitemW(QWidget* parent = nullptr);
     ~ricercaitemW() = default;
     QLayout* ricercabase();
-    DeepPtr<Evento> res();
-    void setValues(DeepPtr<Evento>);
+    //void addtolist();
+    //void reset();
+    //DeepPtr<Evento> res();
+    //void setValues(DeepPtr<Evento>);
 public slots:
-    /*void eliminatrovati();
-    void cerca();
-    void resetcampi();*/
+    void cercaClicked();
+    void pulisciClicked();
+    void eliminatrovati();
+signals:
+    //void acceptedSignal();
 private:
+    //DeepPtr<Evento> ritorno;
+    //QListWidgetItem* item;
+    ricercaitemW* pop;
     Container<DeepPtr<Evento>> list;
     QListWidget* lista;
-
-    QVBoxLayout* v1; //verticali per i filtri
-    QVBoxLayout* v2;
-    QVBoxLayout* v3;
-    QVBoxLayout* v4;
-    QVBoxLayout* v5;
-    QVBoxLayout* v6;
-    QVBoxLayout* v7;
-    QVBoxLayout* v8;
-    QVBoxLayout* v9;
-    QHBoxLayout* h; //orizzontali per i filtri
-    QHBoxLayout* h1;
-    QHBoxLayout* h2;
 
     QLabel* ricercalabel;
     QLabel* categorialabel;
@@ -60,18 +49,14 @@ private:
     QLineEdit* gen;
     QLabel* autlab;
     QLineEdit* aut;
-    QLabel* nomlab;
-    QLineEdit* nom;
-    QLabel* indlab;
-    QLineEdit* ind;
-    QLabel* dur1lab;
-    QLineEdit* dur1;
-    QLabel* dur2lab;
-    QLineEdit* dur2;
-    QLabel* pre1lab;
-    QLineEdit* pre1;
-    QLabel* pre2lab;
-    QLineEdit* pre2;
+
+    QVBoxLayout* vertical; //visualizzazione delle cose in modo verticale
+
+    QPushButton* cerca;
+    QPushButton* pulisci;
+    QPushButton* eliminatrov;
+
+    //std::list<QWidget*> l;
 };
 
 #endif // RICERCAITEMW_H

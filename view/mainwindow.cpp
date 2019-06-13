@@ -5,7 +5,7 @@ using namespace std;
 
 MainWindow::MainWindow(QWidget *parent): QWidget(parent)
 {
-    setFixedSize(900,400);
+    setFixedSize(500,400);
     QRect position = frameGeometry();
     position.moveCenter(QDesktopWidget().availableGeometry().center());
     move(position.topLeft());
@@ -16,151 +16,93 @@ MainWindow::MainWindow(QWidget *parent): QWidget(parent)
 
     edit=false;
     pop=new widgets();
-    //search=new ricercaitemW();
+    search=new ricercaitemW();
+    visual=new visualizzaitemW();
     lista=new QListWidget();
     addtolist();
 
-    /*clickableList = new QLineEdit();
-    clickableList->setReadOnly(true);
-    clickableList->setAlignment(Qt::AlignCenter);*/
-
-    conta = new QLineEdit();
-    conta->setReadOnly(true);
-    conta->setAlignment(Qt::AlignCenter);
-
-    addButton=new QPushButton(tr("Inserisci nuovo \n    evento"));
+    addButton=new QPushButton(tr("Inserisci evento"));
     addButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     addButton->setMinimumSize(50,30);
-    addButton->setMaximumSize(100,100);
+
+    visualButton=new QPushButton(tr("Visualizza evento"));
+    visualButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
+    visualButton->setMinimumSize(50,30);
 
     editButton=new QPushButton(tr("Modifica evento"));
+    editButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     editButton->setMinimumSize(50,30);
 
     removeButton=new QPushButton(tr("Elimina evento"));
+    removeButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     removeButton->setMinimumSize(50,30);
 
     searchButton=new QPushButton(tr("Ricerca evento"));
+    searchButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     searchButton->setMinimumSize(50,30);
 
     saveButton=new QPushButton(tr("Salva"));
+    saveButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     saveButton->setMinimumSize(50,30);
 
     loadButton=new QPushButton(tr("Carica"));
+    loadButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     loadButton->setMinimumSize(50,30);
 
     resetButton=new QPushButton(tr("Reset"));
+    resetButton->setStyleSheet("QPushButton{background-color:rgb(215,215,215); border:1px solid gray; border-radius: 5px;} QPushButton:pressed{background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #BEBEBE, stop: 1 #070707)}");
     resetButton->setMinimumSize(50,30);
 
     connect(addButton,SIGNAL(clicked()),this,SLOT(aggiungiNuovo()));
+    connect(visualButton, SIGNAL(clicked()), this, SLOT(visualizzaClicked()));
     connect(editButton,SIGNAL(clicked()),this,SLOT(modificaClicked()));
     connect(removeButton,SIGNAL(clicked()),this,SLOT(rimuoviClicked()));
     connect(loadButton,SIGNAL(clicked()),this,SLOT(caricaClicked()));
     connect(saveButton,SIGNAL(clicked()),this,SLOT(salvaClicked()));
     connect(resetButton,SIGNAL(clicked()),this,SLOT(resetClicked()));
+    connect(searchButton, SIGNAL(clicked()), this, SLOT(cercaClicked()));
     connect(pop,SIGNAL(acceptedSignal()),this,SLOT(aggiungiEvento()));
 
-    //filtri per ricerca
-    ricercalabel=new QLabel("Ricerca un Evento!!");
-    categorialabel=new QLabel("Scegli la categoria");
-    categoria=new QComboBox();
-    categoria->addItem(tr("Teatro"));
-    categoria->addItem(tr("Cinema"));
-    categoria->addItem(tr("Concerto"));
-    categoria->addItem(tr("Sport"));
-    categoria->setCurrentIndex(-1);
-    titlab=new QLabel("Inserisci il titolo");
-    tit=new QLineEdit();
-    genlab=new QLabel("Inserisci il genere/disciplina");
-    gen=new QLineEdit();
-    autlab=new QLabel("Inserisci l'autore/artista");
-    aut=new QLineEdit();
-    nomlab=new QLabel("Inserisci il nome del luogo");
-    nom=new QLineEdit();
-    indlab=new QLabel("Inserisci l'indirizzo");
-    ind=new QLineEdit();
-    dur1lab=new QLabel("Inserisci una durata da");
-    dur1=new QLineEdit();
-    dur2lab=new QLabel("a");
-    dur2=new QLineEdit();
-    pre1lab=new QLabel("Inserisci un prezzo da");
-    pre1=new QLineEdit();
-    pre2lab=new QLabel("a");
-    pre2=new QLineEdit();
-
-    hor=new QHBoxLayout();
-    vert1=new QVBoxLayout();
-    vert1->setContentsMargins(20,0,20,30);
-    vert2=new QVBoxLayout();
-    vert2->setContentsMargins(0,0,20,30);
-    vert3=new QVBoxLayout();
-    vert3->setContentsMargins(0,0,20,30);
-
-    v1=new QVBoxLayout();
-    v2=new QVBoxLayout();
-    v3=new QVBoxLayout();
-    v4=new QVBoxLayout();
-    v5=new QVBoxLayout();
-    v6=new QVBoxLayout();
-    v7=new QVBoxLayout();
-    v8=new QVBoxLayout();
-    v9=new QVBoxLayout();
-    h=new QHBoxLayout();
-    h1=new QHBoxLayout();
-    h2=new QHBoxLayout();
+    //inserisco il titolo e sottotitolo
+    vert=new QVBoxLayout();
+    vert->setContentsMargins(20,0,0,20);
+    title=new QLabel(tr("Benvenuto nel catalogo dei tuoi eventi preferiti!!"));
+    title->setStyleSheet("QLabel {font-weight: bold; font-size: 15px;}");
+    subtitle=new QLabel(tr("Qui potrai gestirli a tuo piacimento"));
+    subtitle->setStyleSheet("QLabel {font-size: 12px;}");
+    vert->addWidget(title);
+    vert->addWidget(subtitle);
 
     //inserisco la lista che conterrà gli eventi
-    vert1->addWidget(conta);
+    vert1=new QVBoxLayout();
+    titlelist=new QLabel(tr("Lista eventi"));
+    vert1->setContentsMargins(20,0,20,10);
+    vert1->addWidget(titlelist);
     vert1->addWidget(lista);
 
-    //inserisco i pulsanti a lato della lista
-    vert2->addWidget(addButton);
-    vert2->addWidget(editButton);
-    vert2->addWidget(removeButton);
-    vert2->addWidget(saveButton);
-    vert2->addWidget(loadButton);
-    vert2->addWidget(resetButton);
+    //inserisco i pulsanti sopra la lista
+    horbutton1=new QHBoxLayout();
+    horbutton1->setContentsMargins(20,0,20,10);
+    horbutton1->addWidget(addButton);
+    horbutton1->addWidget(visualButton);
+    horbutton1->addWidget(editButton);
+    horbutton1->addWidget(removeButton);
+    horbutton1->addWidget(searchButton);
 
-    //inserisco i campi della ricerca
-    v1->addWidget(ricercalabel);
-    v1->addWidget(categorialabel);
-    v1->addWidget(categoria);
-    v1->addWidget(titlab);
-    v1->addWidget(tit);
-    v1->addWidget(genlab);
-    v1->addWidget(gen);
-    v1->addWidget(autlab);
-    v1->addWidget(aut);
-    v1->addWidget(nomlab);
-    v1->addWidget(nom);
-    v1->addWidget(indlab);
-    v1->addWidget(ind);
-    v2->addWidget(dur1lab);
-    v3->addWidget(pre1lab);
-    v4->addWidget(dur1);
-    v5->addWidget(pre1);
-    v6->addWidget(dur2lab);
-    v7->addWidget(pre2lab);
-    v8->addWidget(dur2);
-    v9->addWidget(pre2);
-    h1->addLayout(v2);
-    h1->addLayout(v4);
-    h1->addLayout(v6);
-    h1->addLayout(v8);
-    h2->addLayout(v3);
-    h2->addLayout(v5);
-    h2->addLayout(v7);
-    h2->addLayout(v9);
-    v1->addLayout(h1);
-    v1->addLayout(h2);
-    v1->addWidget(searchButton);
-    h->addLayout(v1);
-    vert3->addLayout(h);
+    //inserisco i pulsanti sotto la lista
+    horbutton2=new QHBoxLayout();
+    horbutton2->setContentsMargins(20,0,20,10);
+    horbutton2->addWidget(saveButton);
+    horbutton2->addWidget(loadButton);
+    horbutton2->addWidget(resetButton);
 
     //setto tutto in un unico blocco
-    hor->addLayout(vert1);
-    hor->addLayout(vert2);
-    hor->addLayout(vert3);
-    setLayout(hor);
+    v=new QVBoxLayout();
+    v->addLayout(vert);
+    v->addLayout(horbutton1);
+    v->addLayout(vert1);
+    v->addLayout(horbutton2);
+    setLayout(v);
 }
 
 void MainWindow::aggiungiNuovo(){
@@ -186,6 +128,29 @@ void MainWindow::addtolist(){
     }
 }
 
+void MainWindow::visualizzaClicked(){
+    edit=true;
+    DeepPtr<Evento> sup;
+    bool found=false;
+    item=lista->currentItem();
+    if(item){
+        Container<DeepPtr<Evento>>::iterator it=list.begin();
+        unsigned int i=0;
+        for(;!found&&it!=list.end();it++){
+            if((*it)->get_titolo()==item->text()){
+                sup=(*it)->clone();
+                list.erase(i);
+                found=true;
+            }
+            i++;
+        }
+        visual->setValues(sup);
+        visual->show();
+    }else{
+        QMessageBox::warning(this,tr("Attenzione!"),tr("Nessun evento selezionato dalla tua lista.\nPer selezionarne uno, inserisci un nuovo evento oppure caricane uno tramite gli appositi pulsanti:\nInserisci evento o Carica."));
+    }
+}
+
 void MainWindow::modificaClicked(){
     edit=true;
     DeepPtr<Evento> sup;
@@ -205,11 +170,12 @@ void MainWindow::modificaClicked(){
         pop->setValues(sup);
         pop->show();
     }else{
-        QMessageBox::warning(this,tr("Attenzione!"),tr("Nessun elemento selezionato"));
+        QMessageBox::warning(this,tr("Attenzione!"),tr("Nessun evento selezionato dalla tua lista.\nPer selezionarne uno, inserisci un nuovo evento oppure caricane uno tramite gli appositi pulsanti:\nInserisci evento o Carica."));
     }
 }
 
 void MainWindow::cercaClicked(){
+    //search->reset();
     search->show();
 }
 
@@ -295,11 +261,11 @@ void MainWindow::caricaClicked(){
     dialog.setNameFilter("*.json");
     QString fileName = dialog.getOpenFileName(this, "Get list from a file", "", "Json File (*.json)");
     if(loadfile(fileName)){
-        QMessageBox::information(this,tr("Caricamento file"),tr("Caricamento avvenuto con successo"));
+        QMessageBox::information(this,tr("Caricamento file"),tr("Caricamento del file avvenuto con successo."));
         addtolist();
     }
     else
-        QMessageBox::warning(this,tr("Errore"),tr("File non valido"));
+        QMessageBox::warning(this,tr("Errore"),tr("File non valido. \nLa prego di inserire un file con il formato .json."));
 }
 
 void MainWindow::salvaClicked(){
@@ -359,11 +325,11 @@ void MainWindow::salvaClicked(){
     toInsert.insert("Eventi", EventArray);
     QJsonDocument doc(toInsert);
     if(!saveLocation.open(QIODevice::WriteOnly)) {
-        QMessageBox::warning(this,tr("Errore"),tr("File non valido"));
+        QMessageBox::warning(this,tr("Errore"),tr("File non valido."));
         return;
     }else{
     saveLocation.write(doc.toJson());
-    QMessageBox::information(this,tr("Salvataggio file"),tr("Salvataggio avvenuto con successo"));
+    QMessageBox::information(this,tr("Salvataggio file"),tr("Salvataggio degli eventi avvenuto con successo."));
     }
 }
 
